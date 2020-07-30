@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
+from rest_framework.generics import CreateAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CountrySerializer, StateSerializer, CitySerializer, TownSerializer, PersonSerializer, NestedSerializer
@@ -258,7 +259,10 @@ def nestedCreate(request):
 		print('\n\nnot valid\n\n')
 	return Response(country.data)
 
-
+class NestedCreate(CreateAPIView):
+	serializer_class = NestedSerializer
+	queryset = Country.objects.all()
+		
 
 # {
 #     "name": "Indighjjhjhjanested",

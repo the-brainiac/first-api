@@ -4,7 +4,8 @@ from . import views
 urlpatterns = [
 	path('', views.apiOverview, name="api-overview"),
 
-	path('nested-create/', views.nestedCreate, name="nested-create"),
+	# path('nested-create/', views.nestedCreate, name="nested-create"),
+	path('nested-create/', views.NestedCreate.as_view(), name="nested-create"),
 
 	path('country-list/', views.countryList, name="country-list"),
 	path('country-detail/<str:pk>/', views.countryDetail, name="country-detail"),

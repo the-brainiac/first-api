@@ -26,12 +26,18 @@ class PersonSerializer(serializers.ModelSerializer):
 		model   = Person
 		fields  = '__all__'
 
+class nestedCitySerializer(serializers.ModelSerializer):
+	class Meta:
+		model   = City
+		fields  = ['id', 'name', 'description', 'population', 'gdp','pin_code']
+
+
 class NestedStateSerializer(serializers.ModelSerializer):
-	city   = CitySerializer(many=True)
+	city   = nestedCitySerializer(many=True)
 
 	class Meta:
 		model   = State
-		fields  = ['id', 'country', 'name', 'description', 'population', 'gdp', 'city']
+		fields  = ['id', 'name', 'description', 'population', 'gdp', 'city']
 
 	def create(self, validated_data):
 		state_data = validated_data
@@ -59,5 +65,5 @@ class NestedSerializer(serializers.ModelSerializer):
 			cities_data = state_data.pop('city')
 			state = State.objects.create(country=country, **state_data)
 			for city_data in cities_data:
-				city = City.objects.create(state=state, **city_data)
+				city = City.objects.create(state=state, country=country, **city_data)
 		return country
