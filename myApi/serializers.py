@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import Country, City, State, Town, Person
 
+
+####################################
+###     For seperate models      ###
+####################################
+
 class CountrySerializer(serializers.ModelSerializer):
 	class Meta:
 		model   = Country
@@ -26,6 +31,12 @@ class PersonSerializer(serializers.ModelSerializer):
 		model   = Person
 		fields  = '__all__'
 
+
+
+####################################
+###   For nested Country field   ###
+####################################
+
 class nestedCitySerializer(serializers.ModelSerializer):
 	class Meta:
 		model   = City
@@ -50,7 +61,7 @@ class NestedStateSerializer(serializers.ModelSerializer):
 		return state
 
 class NestedSerializer(serializers.ModelSerializer):
-	state  = NestedStateSerializer(many=True)
+	state  = NestedStateSerializer(many=True,required=False)
 	
 	class Meta:
 		model   = Country
@@ -58,7 +69,10 @@ class NestedSerializer(serializers.ModelSerializer):
 
 	def create(self, validated_data):
 		country_data = validated_data
-		states_data   = country_data.pop('state')
+		try:
+			states_data   = country_data.pop('state')
+		except KeyError:
+			states_data   = []
 
 		country      = Country.objects.create(**country_data)
 		for state_data in states_data:

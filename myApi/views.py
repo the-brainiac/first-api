@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CountrySerializer, StateSerializer, CitySerializer, TownSerializer, PersonSerializer, NestedSerializer
@@ -11,259 +11,148 @@ from .models import Country, City, State, Town, Person
 @api_view(['GET'])
 def apiOverview(request):
 	api_urls = {
-		'Nested Country Create':'/nested-create/',
+		'Nested Country Create':'/myApi/nested-create/',
 
-		'Country List':'/country-list/',
-		'Country Detail View':'/country-detail/<str:pk>/',
-		'Country Create':'/country-create/',
-		'Country Update':'/country-update/<str:pk>/',
-		'Country Delete':'/country-delete/<str:pk>/',
+		'Country List':'/myApi/country-list/',
+		'Country Detail View':'/myApi/country-detail/<str:pk>/',
+		'Country Create':'/myApi/country-create/',
+		'Country Update':'/myApi/country-update/<str:pk>/',
+		'Country Delete':'/myApi/country-delete/<str:pk>/',
 
-		'State List':'/state-list/',
-		'State Detail View':'/state-detail/<str:pk>/',
-		'State Create':'/state-create/',
-		'State Update':'/state-update/<str:pk>/',
-		'State Delete':'/state-delete/<str:pk>/',
+		'State List':'/myApi/state-list/',
+		'State Detail View':'/myApi/state-detail/<str:pk>/',
+		'State Create':'/myApi/state-create/',
+		'State Update':'/myApi/state-update/<str:pk>/',
+		'State Delete':'/myApi/state-delete/<str:pk>/',
 
-		'City List':'/city-list/',
-		'City Detail View':'/city-detail/<str:pk>/',
-		'City Create':'/city-create/',
-		'City Update':'/city-update/<str:pk>/',
-		'City Delete':'/city-delete/<str:pk>/',
+		'City List':'/myApi/city-list/',
+		'City Detail View':'/myApi/city-detail/<str:pk>/',
+		'City Create':'/myApi/city-create/',
+		'City Update':'/myApi/city-update/<str:pk>/',
+		'City Delete':'/myApi/city-delete/<str:pk>/',
 
-		'Town List':'/town-list/',
-		'Town Detail View':'/town-detail/<str:pk>/',
-		'Town Create':'/town-create/',
-		'Town Update':'/town-update/<str:pk>/',
-		'Town Delete':'/town-delete/<str:pk>/',
+		'Town List':'/myApi/town-list/',
+		'Town Detail View':'/myApi/town-detail/<str:pk>/',
+		'Town Create':'/myApi/town-create/',
+		'Town Update':'/myApi/town-update/<str:pk>/',
+		'Town Delete':'/myApi/town-delete/<str:pk>/',
 
-		'Person List':'/person-list/',
-		'Person Detail View':'/person-detail/<str:pk>/',
-		'Person Create':'/person-create/',
-		'Person Update':'/person-update/<str:pk>/',
-		'Person Delete':'/person-delete/<str:pk>/',
+		'Person List':'/myApi/person-list/',
+		'Person Detail View':'/myApi/person-detail/<str:pk>/',
+		'Person Create':'/myApi/person-create/',
+		'Person Update':'/myApi/person-update/<str:pk>/',
+		'Person Delete':'/myApi/person-delete/<str:pk>/',
 		}
 
 	return Response(api_urls)
 
-@api_view(['GET'])
-def countryList(request):
-	countrys = Country.objects.all().order_by('-id')
-	serializer = CountrySerializer(countrys, many=True)
-	return Response(serializer.data)
+class countryList(ListAPIView):
+	queryset         = Country.objects.all().order_by('-id')
+	serializer_class = CountrySerializer
 
-@api_view(['GET'])
-def countryDetail(request, pk):
-	countrys = Country.objects.get(id=pk)
-	serializer = CountrySerializer(countrys, many=False)
-	return Response(serializer.data)
+class countryDetail(RetrieveAPIView):
+	queryset         = Country
+	serializer_class = CountrySerializer
 
+class countryCreate(CreateAPIView):
+	serializer_class = CountrySerializer
 
-@api_view(['POST'])
-def countryCreate(request):
-	serializer = CountrySerializer(data=request.data)
+class countryUpdate(UpdateAPIView):
+	queryset         = Country
+	serializer_class = CountrySerializer
 
-	if serializer.is_valid():
-		serializer.save()
+class countryDelete(DestroyAPIView):
+	queryset         = Country
 
-	return Response(serializer.data)
 
-@api_view(['POST'])
-def countryUpdate(request, pk):
-	country = Country.objects.get(id=pk)
-	serializer = CountrySerializer(instance=country, data=request.data)
 
-	if serializer.is_valid():
-		serializer.save()
+class stateList(ListAPIView):
+	queryset         = State.objects.all().order_by('-id')
+	serializer_class = StateSerializer
 
-	return Response(serializer.data)
+class stateDetail(RetrieveAPIView):
+	queryset         = State
+	serializer_class = StateSerializer
 
+class stateCreate(CreateAPIView):
+	serializer_class = StateSerializer
 
-@api_view(['DELETE'])
-def countryDelete(request, pk):
-	country = Country.objects.get(id=pk)
-	country.delete()
+class stateUpdate(UpdateAPIView):
+	queryset         = State
+	serializer_class = StateSerializer
 
-	return Response('Item succsesfully delete!')
+class stateDelete(DestroyAPIView):
+	queryset         = State
 
 
+class cityList(ListAPIView):
+	queryset         = City.objects.all().order_by('-id')
+	serializer_class = CitySerializer
 
-@api_view(['GET'])
-def stateList(request):
-	states = State.objects.all().order_by('-id')
-	serializer = StateSerializer(states, many=True)
-	return Response(serializer.data)
+class cityDetail(RetrieveAPIView):
+	queryset         = City
+	serializer_class = CitySerializer
 
-@api_view(['GET'])
-def stateDetail(request, pk):
-	states = State.objects.get(id=pk)
-	serializer = StateSerializer(states, many=False)
-	return Response(serializer.data)
+class cityCreate(CreateAPIView):
+	serializer_class = CitySerializer
 
+class cityUpdate(UpdateAPIView):
+	queryset         = City
+	serializer_class = CitySerializer
 
-@api_view(['POST'])
-def stateCreate(request):
-	serializer = StateSerializer(data=request.data)
+class cityDelete(DestroyAPIView):
+	queryset         = City
 
-	if serializer.is_valid():
-		serializer.save()
 
-	return Response(serializer.data)
 
-@api_view(['POST'])
-def stateUpdate(request, pk):
-	state = State.objects.get(id=pk)
-	serializer = StateSerializer(instance=state, data=request.data)
+class townList(ListAPIView):
+	queryset         = Town.objects.all().order_by('-id')
+	serializer_class = TownSerializer
 
-	if serializer.is_valid():
-		serializer.save()
+class townDetail(RetrieveAPIView):
+	queryset         = Town
+	serializer_class = TownSerializer
 
-	return Response(serializer.data)
+class townCreate(CreateAPIView):
+	serializer_class = TownSerializer
 
+class townUpdate(UpdateAPIView):
+	queryset         = Town
+	serializer_class = TownSerializer
 
-@api_view(['DELETE'])
-def stateDelete(request, pk):
-	state = State.objects.get(id=pk)
-	state.delete()
+class townDelete(DestroyAPIView):
+	queryset         = Town
 
-	return Response('Item succsesfully delete!')
 
 
-@api_view(['GET'])
-def cityList(request):
-	citys = City.objects.all().order_by('-id')
-	serializer = CitySerializer(citys, many=True)
-	return Response(serializer.data)
+class personList(ListAPIView):
+	queryset         = Person.objects.all().order_by('-id')
+	serializer_class = PersonSerializer
 
-@api_view(['GET'])
-def cityDetail(request, pk):
-	citys = City.objects.get(id=pk)
-	serializer = CitySerializer(citys, many=False)
-	return Response(serializer.data)
+class personDetail(RetrieveAPIView):
+	queryset         = Person
+	serializer_class = PersonSerializer
 
+class personCreate(CreateAPIView):
+	serializer_class = PersonSerializer
 
-@api_view(['POST'])
-def cityCreate(request):
-	serializer = CitySerializer(data=request.data)
+class personUpdate(UpdateAPIView):
+	queryset         = Person
+	serializer_class = PersonSerializer
 
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
-@api_view(['POST'])
-def cityUpdate(request, pk):
-	city = City.objects.get(id=pk)
-	serializer = CitySerializer(instance=city, data=request.data)
-
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def cityDelete(request, pk):
-	city = City.objects.get(id=pk)
-	city.delete()
-
-	return Response('Item succsesfully delete!')
-
-@api_view(['GET'])
-def townList(request):
-	towns = Town.objects.all().order_by('-id')
-	serializer = TownSerializer(towns, many=True)
-	return Response(serializer.data)
-
-@api_view(['GET'])
-def townDetail(request, pk):
-	towns = Town.objects.get(id=pk)
-	serializer = TownSerializer(towns, many=False)
-	return Response(serializer.data)
-
-
-@api_view(['POST'])
-def townCreate(request):
-	serializer = TownSerializer(data=request.data)
-
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
-@api_view(['POST'])
-def townUpdate(request, pk):
-	town = Town.objects.get(id=pk)
-	serializer = TownSerializer(instance=town, data=request.data)
-
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def townDelete(request, pk):
-	town = Town.objects.get(id=pk)
-	town.delete()
-
-	return Response('Item succsesfully delete!')
-
-@api_view(['GET'])
-def personList(request):
-	persons = Person.objects.all().order_by('-id')
-	serializer = PersonSerializer(persons, many=True)
-	return Response(serializer.data)
-
-@api_view(['GET'])
-def personDetail(request, pk):
-	persons = Person.objects.get(id=pk)
-	serializer = PersonSerializer(persons, many=False)
-	return Response(serializer.data)
-
-
-@api_view(['POST'])
-def personCreate(request):
-	serializer = PersonSerializer(data=request.data)
-
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
-@api_view(['POST'])
-def personUpdate(request, pk):
-	person = Person.objects.get(id=pk)
-	serializer = PersonSerializer(instance=person, data=request.data)
-
-	if serializer.is_valid():
-		serializer.save()
-
-	return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-def personDelete(request, pk):
-	person = Person.objects.get(id=pk)
-	person.delete()
-
-	return Response('Item succsesfully delete!')
-
-
-@api_view(['POST'])
-def nestedCreate(request):
-	country      = NestedSerializer(data=request.data)
-	if country.is_valid():
-		country.save()
-	else:
-		print('\n\nnot valid\n\n')
-	return Response(country.data)
+class personDelete(DestroyAPIView):
+	queryset         = Person
 
 class NestedCreate(CreateAPIView):
 	serializer_class = NestedSerializer
-	queryset = Country.objects.all()
-		
 
+# class NestedList(ListAPIView):
+# 	queryset         = Country
+# 	serializer_class = NestedSerializer
+		
+class NestedUpdate(UpdateAPIView):
+	serializer_class = NestedSerializer
+	queryset         = Country
 # {
 #     "name": "Indighjjhjhjanested",
 #     "description": "asdmaksdk",
