@@ -153,24 +153,26 @@ class NestedCreate(CreateAPIView):
 class NestedUpdate(UpdateAPIView):
 	serializer_class = NestedSerializer
 	queryset         = Country
+
+
 # {
-#     "name": "Indighjjhjhjanested",
+#     "name": "India1",
 #     "description": "asdmaksdk",
 #     "population": 89,
 #     "gdp": 675.76,
 #     "state": [
 #         {
-#             "name": "hbjvh",
+#             "name": "state1",
 #             "description": "hjbvhv",
 #             "population": 788,
 #             "gdp": 677.0,
 #             "city": [
 #                 {
-#                     "name": "sdsd",
+#                     "name": "city1",
 #                     "description": "fsdfsdfv",
 #                     "population": 3434,
 #                     "gdp": 3434.0,
-#                     "pin_code": "34343"
+#                     "pin_code": "343431"
 #                 }
 #             ]
 #         }

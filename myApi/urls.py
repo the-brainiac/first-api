@@ -6,7 +6,6 @@ urlpatterns = [
 
 	# path('nested-create/', views.nestedCreate, name="nested-create"),
 	path('nested-create/', views.NestedCreate.as_view(), name="nested-create"),
-	# path('nested-list/', views.NestedList.as_view(), name="nested-list"),
 	path('nested-update/<str:pk>', views.NestedUpdate.as_view(), name="nested-update"),
 
 	path('country-list/', views.countryList.as_view(), name="country-list"),

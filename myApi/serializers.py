@@ -67,8 +67,7 @@ class NestedSerializer(serializers.ModelSerializer):
 		model   = Country
 		fields  = ['id', 'name', 'description', 'population', 'gdp', 'state']
 
-	def create(self, validated_data):
-		country_data = validated_data
+	def create(self, country_data):
 		try:
 			states_data   = country_data.pop('state')
 		except KeyError:
@@ -80,4 +79,37 @@ class NestedSerializer(serializers.ModelSerializer):
 			state = State.objects.create(country=country, **state_data)
 			for city_data in cities_data:
 				city = City.objects.create(state=state, country=country, **city_data)
+		return country
+
+	def update(self, instance, country_data):
+		try:
+			states_data   = country_data.pop('state')
+		except KeyError:
+			states_data   = []
+
+
+		instance.description = country_data.get('description',instance.description)
+		instance.population = country_data.get('population',instance.population)
+		instance.gdp = country_data.get('gdp',instance.gdp)
+		instance.save()
+
+		for state_data in states_data:
+			cities_data = state_data.pop('city')
+			state = State.objects.get(name=state_data['name'])
+
+			state['description'] = state_data['description']
+			state['population'] = state_data['population']
+			state['gdp'] = state_data['gdp']
+			if state.is_valid():
+				state.save()
+
+			for city_data in cities_data:
+				city = City.objects.get(nsme=city_data['name'])
+
+				city['description'] = city_data['description']
+				city['population'] = city_data['population']
+				city['gdp'] = city_data['gdp']
+				city['pin_code'] = city_data['pin_code']
+				if city.is_valid():
+					city.save()
 		return country
