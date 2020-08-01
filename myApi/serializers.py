@@ -80,7 +80,8 @@ class NestedSerializer(serializers.ModelSerializer):
 			for city_data in cities_data:
 				city = City.objects.create(state=state, country=country, **city_data)
 		return country
-
+		
+	"""
 	def update(self, instance, country_data):
 		try:
 			states_data   = country_data.pop('state')
@@ -113,3 +114,4 @@ class NestedSerializer(serializers.ModelSerializer):
 				if city.is_valid():
 					city.save()
 		return country
+	"""

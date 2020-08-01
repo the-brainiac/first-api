@@ -143,38 +143,38 @@ class personUpdate(UpdateAPIView):
 class personDelete(DestroyAPIView):
 	queryset         = Person
 
+
+
 class NestedCreate(CreateAPIView):
 	serializer_class = NestedSerializer
 
-# class NestedList(ListAPIView):
-# 	queryset         = Country
-# 	serializer_class = NestedSerializer
 		
 class NestedUpdate(UpdateAPIView):
 	serializer_class = NestedSerializer
 	queryset         = Country
 
-
-# {
-#     "name": "India1",
-#     "description": "asdmaksdk",
-#     "population": 89,
-#     "gdp": 675.76,
-#     "state": [
-#         {
-#             "name": "state1",
-#             "description": "hjbvhv",
-#             "population": 788,
-#             "gdp": 677.0,
-#             "city": [
-#                 {
-#                     "name": "city1",
-#                     "description": "fsdfsdfv",
-#                     "population": 3434,
-#                     "gdp": 3434.0,
-#                     "pin_code": "343431"
-#                 }
-#             ]
-#         }
-#     ]
-# }
+"""
+{
+    "name": "India1",
+    "description": "asdmaksdk",
+    "population": 89,
+    "gdp": 675.76,
+    "state": [
+        {
+            "name": "state1",
+            "description": "hjbvhv",
+            "population": 788,
+            "gdp": 677.0,
+            "city": [
+                {
+                    "name": "city1",
+                    "description": "fsdfsdfv",
+                    "population": 3434,
+                    "gdp": 3434.0,
+                    "pin_code": "343431"
+                }
+            ]
+        }
+    ]
+}
+"""
